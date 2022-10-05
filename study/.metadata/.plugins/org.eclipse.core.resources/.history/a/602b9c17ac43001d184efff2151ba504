@@ -1,0 +1,6 @@
+package pkjDB;
+
+public class DBean {
+	private int idx;
+	private String part;
+}

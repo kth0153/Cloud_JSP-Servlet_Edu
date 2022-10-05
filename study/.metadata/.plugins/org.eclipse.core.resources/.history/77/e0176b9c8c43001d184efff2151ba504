@@ -1,0 +1,36 @@
+package pkgMVC;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class ControllerMVC
+ */
+@WebServlet("/MVC")
+public class ControllerMVC extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+    public ControllerMVC() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+		String uri = request.getRequestURI();// URI
+		String path = request.getContextPath();
+		String command = uri.substring(path.length()); // 요청 경로
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}

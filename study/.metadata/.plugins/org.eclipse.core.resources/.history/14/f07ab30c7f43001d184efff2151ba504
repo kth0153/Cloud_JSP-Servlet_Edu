@@ -1,0 +1,26 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%request.setCharacterEncoding("utf-8");
+%>
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://code.jquery.com/jquery-3.6.1.js"></script>
+<title>Insert title here</title>
+</head>
+<body>
+<jsp:useBean id="user" class="pkgBean.BeanEx" scope="page"/>
+<jsp:setProperty property="user" name="*"/>
+
+<p>이름 : <jsp:getProperty property="userName" name="user"/></p>
+<p>아이디 : <jsp:getProperty property="userId" name="user"/></p>
+
+<!-- <p>이름 : </p>
+<p>아이디 : </p>
+<p>비밀번호 :</p>
+<p>이메일 : </p> -->
+</body>
+</html>

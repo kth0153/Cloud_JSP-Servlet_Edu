@@ -1,0 +1,41 @@
+package pkgBean;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+@WebServlet("/Login")
+public class Login extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    
+    public Login() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String userId = "root";
+		String userPw = "1234";
+		String name = request.getParameter("name");
+		String id = request.getParameter("id");
+		String pw = request.getParameter("pw");
+		String email = request.getParameter("email");
+		if(userId.equals(id) && userPw.equals(pw)) {
+			HttpSession session = request.getSession();
+			session.setAttribute("sessName", name);
+			session.setAttribute("sessId", id);
+			session.setAttribute("sessPw", pw);
+			session.setAttribute("sessEmail", email);
+		}
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+	}
+
+}

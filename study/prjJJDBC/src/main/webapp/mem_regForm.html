@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Servlet : 데이터 전송 예제 1</title>
+        <link href="style.css" rel="stylesheet" />
+        <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
+        <script src="mem_regForm.js"></script>
+    </head>
+    <body>
+          <div id="container">
+            <h4>회원가입</h4>
+            <form name="fn" action="./rsd/" method="get" enctype="multipart/form-data">
+                <table>
+                    <caption>
+                        회원가입을 위한 양식 문서
+                    </caption>
+                    <colgroup>
+                        <col>
+                        <col>
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <th>
+                                <label for="temail">이메일</label>
+                            </th>
+                            <td>
+                                <input type="text" name="temail" id="temail" minlength="5" maxlength="50" value="" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label for="tname">이름</label>
+                            </th>
+                            <td>
+                                <input type="text" name="tname" id="tname" minlength="2" maxlength="20" value="" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label for="tpwd">비밀번호</label>
+                            </th>
+                            <td>
+                                <input type="password" name="tpwd" id="tpwd" minlength="8" maxlength="16" value="" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label for="tpwd2">비밀번호 확인</label>
+                            </th>
+                            <td>
+                                <input type="password" name="tpwd2" id="tpwd2" minlength="8" maxlength="16" value="" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                취미
+                            </th>
+                            <td>
+                                <input type="checkbox" name="thobby" id="thobby1" value="1" />
+                                <label for="thobby1">운동</label>
+                                <input type="checkbox" name="thobby" id="thobby2" value="2" />
+                                <label for="thobby2">독서</label>
+                                <input type="checkbox" name="thobby" id="thobby3" value="3" />
+                                <label for="thobby3">낚시</label>
+                                <input type="checkbox" name="thobby" id="thobby4" value="4" />
+                                <label for="thobby4">등산</label>
+                                <input type="checkbox" name="thobby" id="thobby5" value="5" />
+                                <label for="thobby5">음악감상</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label for="taddr">거주지역</label>
+                            </th>
+                            <td>
+                                <select name="taddr">
+                                    <option value="">== 거주지역 선택 ==</option>
+                                    <option value="부산">부산광역시</option>
+                                    <option value="대구">대구광역시</option>
+                                    <option value="인천">인천광역시</option>
+                                    <option value="광주">광주광역시</option>
+                                    <option value="대전">대전광역시</option>
+                                    <option value="울산">울산광역시</option>
+                                    <option value="서울">서울특별시</option>
+                                    <option value="제주">제주특별자치도</option>
+                                    <option value="경기">경기도</option>
+                                    <option value="강원">강원도</option>
+                                    <option value="충북">충청북도</option>
+                                    <option value="충남">충청남도</option>
+                                    <option value="경북">경상북도</option>
+                                    <option value="경남">경상남도</option>
+                                    <option value="잔북">전라북도</option>
+                                    <option value="전남">전라남도</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="2">
+                                <span id="btnReg">회원가입</span>
+                                <span>가입취소</span>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </form>
+            <div id="resultArea">
+            	<table>
+            		<thead>
+            			<th>이름</th><th>이메일</th><th>취미</th><th>거주지</th><th>가입일</th>
+            		</thead>
+            		<tbody>
+            			
+            		</tbody>
+            		<tfoot></tfoot>
+            	</table>
+            </div>
+          </div>  
+    </body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	method 
+	1. get 방식 : value 값만 사용
+	2. post 방식 : form안에 있는 값을 모두 가져감
+	
+	http://localhost:8080/helloWorld/SHW?temail=123@123&tname=123&tpwd=123&tpwd2=123&thobby=2&thobby=3&taddr=%EB%B6%80%EC%82%B0
+	데이터 보낼 타입 : 받을 파일명(매핑명/JSP 파일명).jsp?그릇=데이터&&그릇=데이터&&그릇=데이터
+	그릇 : 입력양식의 이름(name)
+	데이터 : value ( 입력값 | 선택값 )
+	
+	<form action="" name = "fn" method = "get"> 
+	
+		<input type="text" name="tname">
+		<input type="button" value="전송" onclick="fn.submit();"/>
+	
+	</form>
+</body>
+</html>

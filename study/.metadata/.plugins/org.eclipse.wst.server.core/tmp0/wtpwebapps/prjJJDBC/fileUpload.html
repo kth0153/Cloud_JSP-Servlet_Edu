@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+ 		<script src="https://code.jquery.com/jquery-3.6.1.js"></script>
+        <script src="fileUpload.js"></script>
+        
+	<!-- accept : 업로드 파일 종류, 미지정 할 경우 모든 파일
+	-ex : .txt, .xlsx, .jpg(확장명 기재);
+	
+	capcure : 모바일 디바이스에 적용
+	- user : 전면 카메라 사용
+	- enviroment : 후면 카메라 사용
+	
+	files : 파일을 선택하면, 선택된 파일 목록을 fileList 객체 형태로 files 속성에 저장됨
+	선택된 파일목록을 가져오려면 files 속성을 참고하면 됨
+	
+	multiple : 다중 파일 업로드, 값(value)이없으며 기재하면 true값을 잦음
+	
+	required : form이 전송될때 필수 선택여부를 지원하는 속성, 이속성을 지정할 경우
+	파일을 선택하지 않고 form을 전송할 경우 파일을 선택하라는 메세지가 나옴, boolean
+	
+	value : 서택한 파일의 경로, 다중파일 선택의 경우 첫번째 파일을 기준으로 함
+	악의적인 사용 방지를 위해 "C:\fakepth\"가 포함됨 -->
+	
+	
+	<!-- 서블릿 3.0에서는 InputStream이나 외부 라이브러리를 사용하지 않고도 웹 브라우저가 업로드한 파일을 읽어 올 수 있는 기능 추가
+	2가지 파일 업로드 처리 방법
+	- 1. httpServletRequest의 getPart() 메서드를 이용해서 업로드 데이터 접근
+	- 2. 서블릿이나 multipart 데이터를 처리할 수 있도록 설정
+		=> @MultipartConfig 애노테이션을 사용하거나
+		=> web.xml에서 < multipart-config> 태그 사용
+	
+	enctype="multipart/form-data" : 파일 전달하기 위해 필수 요소!!
+	enctype="multipart/form-data" 형식으로 전송된 데이터는 request.getParameter()와 같은 메서드로는 접근 할 수 없다.
+	서블릿 3.0에 새롭게 추가된 Part 인터페이스를 사용해서 접근해야 한다.
+	
+	<접근 방식>
+	- 1. HttpServletRequest, getContentType()을 이용해서 "multipart/form-data" 인지 확인한다.
+	- 2. "multipart/form-data"인 경우
+	  => HttpServletRequest의 getParts()나 getPart(name) 메서드를 이용해서 Part를 구한다.
+	  => Part의 Content-Disposition 헤더가 "filename="을 포함하면, 파일로 처리한다.
+	  => "filename="을 포함하지 않으면 파라미터로 처리한다. -->
+	  
+	  
+	<form name = "fn"  action="fu" method="post" enctype="multipart/form-data"> 
+		<input type="file"  name="uploadFile" id="uploadFile" multiple required>
+		<input type="button" name="btnFile" id="btnFile" value="다중파일선택">
+	</form>
+	
+	
+</body>
+</html>

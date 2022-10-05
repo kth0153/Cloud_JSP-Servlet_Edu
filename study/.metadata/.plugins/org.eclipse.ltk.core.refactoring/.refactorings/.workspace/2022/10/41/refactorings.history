@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;prjJDBC&apos; to &apos;prjDB&apos;" description="Rename resource &apos;prjJDBC&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="/prjJDBC" name="prjDB" stamp="1664863638125" updateReferences="true"/>
+</session>

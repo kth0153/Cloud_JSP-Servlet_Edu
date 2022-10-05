@@ -1,0 +1,8 @@
+package pkgBean;
+
+public class BeanEx {
+	private String userId;
+	private String userName;
+	
+
+}

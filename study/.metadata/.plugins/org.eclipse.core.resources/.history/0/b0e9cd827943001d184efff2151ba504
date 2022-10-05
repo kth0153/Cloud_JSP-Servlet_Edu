@@ -1,0 +1,11 @@
+package prjEx;
+
+public class BeanEx1 {
+
+	public static void main(String[] args) {
+		private String name, id, pw, email;
+		
+
+	}
+
+}

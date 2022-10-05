@@ -1,0 +1,305 @@
+package pkgStudy;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+@WebServlet("/CW")
+
+//-------------------------------------------------------------------------------------------------------------------------
+/*서블릿 3.0에서는 InputStream이나 외부 라이브러리를 사용하지 않고도 웹 브라우저가 업로드한 파일을 읽어 올 수 있는 기능 추가
+2가지 파일 업로드 처리 방법
+- 1. httpServletRequest의 getPart() 메서드를 이용해서 업로드 데이터 접근
+- 2. 서블릿이나 multipart 데이터를 처리할 수 있도록 설정
+	=> @MultipartConfig 애노테이션을 사용하거나
+	=> web.xml에서 < multipart-config> 태그 사용
+
+enctype="multipart/form-data" : 파일 전달하기 위해 필수 요소!!
+enctype="multipart/form-data" 형식으로 전송된 데이터는 request.getParameter()와 같은 메서드로는 접근 할 수 없다.
+서블릿 3.0에 새롭게 추가된 Part 인터페이스를 사용해서 접근해야 한다.
+
+<접근 방식>
+- 1. HttpServletRequest, getContentType()을 이용해서 "multipart/form-data" 인지 확인한다.
+- 2. "multipart/form-data"인 경우
+  => HttpServletRequest의 getParts()나 getPart(name) 메서드를 이용해서 Part를 구한다.
+  => Part의 Content-Disposition 헤더가 "filename="을 포함하면, 파일로 처리한다.
+  => "filename="을 포함하지 않으면 파라미터로 처리한다.*/
+  
+@MultipartConfig(
+		maxFileSize = 1024*1024*5, // 5m
+		maxRequestSize = 1024*1024*5 // 50m
+		)
+//-------------------------------------------------------------------------------------------------------------------------
+public class CtrlWrite extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    public CtrlWrite() {
+        
+    }
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8"); // post 방식만 가능 
+		                                       // 서블릿에서 post 방식으로 서버에 전달 시  
+											   // jsp나 html에서 전달한 한글 값을 깨지지 않게 전달 하기 위한 설정
+											   // get 방식의 경우 tomcat이 기본적으로 UTF-8문자 코드가 적용 되게 자동으로 처리
+		response.setCharacterEncoding("utf-8"); // post, get 방식 둘다 가능
+												// 서블릿에서 직접 브라우저에 출력해줄 경우 사용
+												// servlet 화면에 데이터를 출력하기 위해 out.println을 사용하는데 이때 한글 값이 깨지지 않게 설정
+		response.setContentType("text/html;charset=utf-8"); // post, get 방식 둘다 가능
+		PrintWriter out = response.getWriter(); // 브라우저에 출력하기 위함
+		
+		String top="";
+		String header="";
+		String writer = "";
+		String subject = "";
+		String content = "";
+		String passw = "";
+		
+		if(request.getParameter("top") !=null && !"".equals(request.getParameter("top"))) {
+			 top =request.getParameter("top");
+		}
+		if(request.getParameter("header") !=null && !"".equals(request.getParameter("header"))) {
+			header =request.getParameter("header");
+		}
+		if(request.getParameter("writer") !=null && !"".equals(request.getParameter("writer"))) {
+			writer =request.getParameter("writer");
+		}
+		if(request.getParameter("subject") !=null && !"".equals(request.getParameter("subject"))) {
+			subject =request.getParameter("subject");
+		}
+		if(request.getParameter("content") !=null && !"".equals(request.getParameter("content"))) {
+			content =request.getParameter("content");
+		}
+		if(request.getParameter("passw") !=null && !"".equals(request.getParameter("passw"))) {
+			passw =request.getParameter("passw");
+		}
+		
+		out.println(top);
+		out.println(header);
+		out.println(writer);
+		out.println(subject);
+		out.println(content);
+		out.println(passw);
+
+		// out.print("서블릿 성공");
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/html;charset=utf-8");
+		request.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		
+		//================ 게시판 변수 ==============
+		String top="";
+		String header="";
+		String writer = "";
+		String subject = "";
+		String content = "";
+		String passw = "";
+		
+		//================ 파일 변수 ==============
+		String firstName=""; 
+		String exName = "";
+		String orgName = "";
+		
+		
+		long fileSize = 0; // 전송된 파일의 size
+		int idx=0; // 새로 등록할 파일정보 P/K 값(FIDX)
+
+		if(request.getParameter("top") !=null && !"".equals(request.getParameter("top"))) {
+			 top =request.getParameter("top");
+		}else {
+			top="No";
+		}
+		
+		if(request.getParameter("header") !=null && !"".equals(request.getParameter("header"))) {
+			header =request.getParameter("header");
+		}
+		if(request.getParameter("writer") !=null && !"".equals(request.getParameter("writer"))) {
+			writer =request.getParameter("writer");
+		}
+		if(request.getParameter("subject") !=null && !"".equals(request.getParameter("subject"))) {
+			subject =request.getParameter("subject");
+		}
+		if(request.getParameter("content") !=null && !"".equals(request.getParameter("content"))) {
+			content =request.getParameter("content");
+		}
+		if(request.getParameter("passw") !=null && !"".equals(request.getParameter("passw"))) {
+			passw =request.getParameter("passw");
+		}
+//		out.println(top);
+//		out.println(header);
+//		out.println(writer);
+//		out.println(subject);
+//		out.println(content);
+//		out.println(passw);
+
+		//out.print("서블릿 성공");
+		
+		// ================= 답변글에 대한 데이터 취득부분 ============================
+		String qidx ="0";
+		String group ="0";
+		String level ="0";
+		String step ="0";
+		String list ="0";
+		// ================= 정규표현식 ===============================================
+//		 - [0-9] : 문자열 중에서 0 ~ 9 까지의 숫자가 들어있는 문자열은 모두 해당 [0123456789] 와 같은 의미
+//		 - [^] : 캐럿(^)은 반대를 의미, !와 같은 의미
+//		   [^0-9] : 문자열 중에서 0 ~9 를 제외한 문자열 (a-z, A-Z)가 해당
+		   
+		if(request.getParameter("idx") !=null && !"".equals(request.getParameter("idx"))&& 
+				request.getParameter("idx").matches("[0-9.]+"))
+					qidx =request.getParameter("idx");
+
+				if(request.getParameter("group") !=null && !"".equals(request.getParameter("group"))&& 
+				request.getParameter("group").matches("[0-9.]+"))
+					group =request.getParameter("group");
+
+				if(request.getParameter("level") !=null && !"".equals(request.getParameter("level"))&& 
+				   request.getParameter("level").matches("[0-9.]+"))
+					level =request.getParameter("level");
+
+				if(request.getParameter("step") !=null && !"".equals(request.getParameter("step"))&& 
+				request.getParameter("step").matches("[0-9.]+"))
+					step =request.getParameter("step");
+
+				if(request.getParameter("list") !=null && !"".equals(request.getParameter("list"))&& 
+				request.getParameter("list").matches("[0-9.]+"))
+					list =request.getParameter("list");
+		
+		// ================= 답변글에 대한 데이터 취득부분 끝 ============================
+		// ======================전송 데이터====================
+		// FIDX, FNUM, FGROUP, FLEVEL, FSTEP, FTOP, FPARTIDX, FSUBJECT, FCONTENT, 
+		// FID, FNAME, FPASSW, FDELETED, FDATE
+		
+		List<String> req = new ArrayList<String>();
+		
+		req.add(top);
+		req.add(header);
+		req.add(subject);
+		req.add(content);
+		req.add("");
+		req.add(writer);
+		req.add(passw);
+		req.add(qidx);
+		req.add(group);
+		req.add(level);
+		req.add(step);
+		req.add(list);
+		
+		// ============데이터베이스 연결=================================
+		BbsDAO bbs = new BbsDAO(); // 사용자 객체 생성
+		
+		// ================= 게시물 등록부분 ============================
+		//bbs.addBoard(req);
+		int[] keyVal = bbs.addBoard(req); // forward를 통해 이동할 수 있는 준비
+		if(keyVal==null) out.print("null"); // 에러 페이지 생성 후 redirect
+		
+		
+		// ================= 게시물 등록부분 끝 ============================
+			
+		
+		// ============데이터베이스 메서드 호출=================================
+		bbs.bbsConnect(); // 객체 메서드 호출(실행)
+					
+		// ============파일관련===============================================================
+		// FileSystem objFile = FileSystems.getDefault(); // return value : 업로드 파일 갯수
+		idx = bbs.getGroupIdx(); // idx 최대값 가져오는 곳
+		String strSQL = "insert into TBOARD_FILE(FIDX,FBOARDIDX,FFILENAME,FSAVENAME,FFILESIZE) values";	// 파일 테이블 삽입 쿼리문	
+		
+		Collection<Part>parts = request.getParts(); // 여러개 파일 받아오는 것	
+		for(Part part : request.getParts()) { // 요청된 파일의 갯수 만큼 반복
+			if(part.getSubmittedFileName()!=null) { // 다른 입력 요소 제외 파일명이 전달된 것만 처리(파일이 있을경우)
+				System.out.println(part.getSubmittedFileName());
+				
+				String uploadFilePath = "C:\\Users\\KoTaehoon\\Desktop\\cloud_edu\\JSP_Servlet\\study\\JSPProject-main\\src\\main\\webapp\\fileupload\\"; // 맨뒤 \\ 생략하거나 넣거나 가능, 업로드 파일 경로
+				String regFileName="";
+				
+				orgName = part.getSubmittedFileName(); // 요청된 파일의 이름 가져오는 것
+				if(!orgName.isEmpty()) { // 파일 이름이 있을 경우에만
+				firstName = orgName.substring(0,orgName.lastIndexOf(".")); // '.'을 기준으로 0~'.' 까지 파일 앞 이름 => 01_JSP&Servlet1
+				exName = orgName.substring(orgName.indexOf(".")); // '.' ~ 마지막 인덱스 까지 파일 뒤쪽 이름 => .pdf
+				}
+				// ===================파일 중복 체크 후 새 파일명 생성===================
+				File file = new File(uploadFilePath + orgName); // 업로드 경로 + 맨처음 받아온 파일명
+				int cnt=1; // 중복된 파일명 뒤에 붙일 값
+				regFileName = orgName; // 중복되지 않는 파일이 업로드 된 경우 대비
+				while(file.exists()) { // file.exists() : 파일의 존재 유무 확인 / 업로드 된 파일 명과 동일한 것이 있는지 판단
+							           // 중복된 파일이 있는 경우 종복된 파일명이 존재하지 않을 때 까지 파일명 변경
+					
+					// 1. 파일명 만들기
+					 regFileName = firstName + (cnt++) + exName; // 중복되는 파일이 있는 경우 숫자를 붙여줘서 파일 중복을 없앤다
+					 file = new File(uploadFilePath + regFileName); // 기존의 파일 + 새로 만들어질 파일명
+					
+				} // e:while(file.exists())
+				// uploadFilePath에 지정된 폴더로 클라이언트에서 전송된 파일을
+				// 새로 만들어진 이름으로 저장
+				file = new File(uploadFilePath);
+				if(!file.exists()) { // 해당 경로에 폴더가 없다면
+					file.mkdirs(); // 해당 경로에 폴더를 생성
+					}
+				fileSize = part.getSize(); // Part 에서 전송된 파일의 크기를 반환 받음
+//				out.println(regFileName);
+				part.write(uploadFilePath + regFileName); // 새로 만들어진 이름으로 파일 저장
+				
+				// ===================파일 중복 체크 후 새 파일명 생성 끝===================
+				
+				// ========= DB Connection 호출 일반적 사용 =================
+				/*idx = bbs.getGroupIdx();
+				System.out.println("idx 값 : " +idx);
+				if(idx>0) { // P/K 값을 정상적으로 받아온 경우, -1은 장애발생을 의미
+					// idx, 1, orgName, regFileName, fileSize
+					String strSQL = "insert into TBOARD_FILE(FIDX,FBOARDIDX,FFILENAME,FSAVENAME,FFILESIZE)"
+							+ "values('"+idx+"','1','"+orgName+"','"+regFileName+"','"+fileSize+"');";
+					//out.println(strSQL);
+					//bbs.addFile(strSQL);
+					out.println(bbs.addFile(strSQL));
+					}*/
+				// ========= DB Connection 호출 일반적 사용 끝 =================
+				
+					if(idx>0) { // P/K 값을 정상적으로 받아온 경우, -1은 장애발생을 의미
+						strSQL += "('"+(idx++) +"','1','"+orgName+"','"+regFileName+"','"+fileSize+"'),"; // idx 값을 증가 시켜줘야 함!!!
+					}// e:if(idx>0)
+
+				}// e:if(part.getSubmittedFileName()!=null) ==> 실제 파일이 있을 경우 처리 부분
+				
+			}// e:for(Part part : request.getParts()) ==> 여러 파일 반복 끝
+			strSQL = strSQL.substring(0, strSQL.length()-1); // 마지막 ',' 제거
+			if(!orgName.isEmpty()) {
+			out.println(bbs.addFile(strSQL));
+			}
+			//out.println(strSQL);
+			
+			
+		//doGet(request, response);
+		//======================================================
+		//forward()를 통한 이동
+		//import javax.servlet.RequestDispatcher; 필요
+		RequestDispatcher fw = request.getRequestDispatcher("/write.jsp"); // 이동 경로
+//		String KeyName[] = {"idx","group","level","step","list"};
+//		for(int i=0; i<KeyName.length;i++) {
+//			
+//				request.setAttribute(KeyName[i],keyVal[i]);				
+//	
+//		}
+		request.setAttribute("idx", keyVal[0]); // "키이름","값" write.jsp로 가져갈 값
+		request.setAttribute("group", keyVal[1]);
+		request.setAttribute("level", keyVal[2]);
+		request.setAttribute("step", keyVal[3]);
+		request.setAttribute("list", keyVal[4]);
+		fw.forward(request, response);
+			
+	} // e:protected void doPost
+
+}

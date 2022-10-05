@@ -1,0 +1,48 @@
+@import url("reset.css");
+@import url(https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css);
+/*-------------------------------------------------------*/
+html * {
+    font-family: 'NanumSquare', sans-serif;
+    color:#222;
+}
+h4 {
+    font-size:1.2rem;
+    margin:0px;
+}
+a:active, a:link, a:hover {color:#222;text-decoration: none;}
+table { width:100%; }
+table caption {
+    position: absolute;
+    visibility: hidden;
+}
+col:first-child {width:150px;}
+col:last-child {width:auto;}
+
+table, th, td {
+    border: 1px solid #ccc;
+    padding: 7px;
+    background-color: #fff;
+}
+th {
+    background-color:#efefef;
+}
+
+h4 {
+    padding : 10px;
+}
+tfoot td { text-align: center;}
+tfoot td span {
+    display:inline-block;
+    padding:5px 20px;
+    border:1px solid #ccc;
+}
+tfoot td span:hover {background-color: #222; color: #fff; cursor: pointer;}
+label {margin-right:10px;}
+#tpwd, #tpwd2 {font-family:"굴림";}
+/* =========== id 설정부 ==================*/
+#container {
+    width:960px;
+    margin:0px auto;
+    padding:10px;
+    position:relative;
+}

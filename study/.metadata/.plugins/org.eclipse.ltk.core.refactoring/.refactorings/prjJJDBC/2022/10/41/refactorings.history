@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Move package &apos;pkjDB&apos; to &apos;prjDB/src/main/java&apos;&#x0D;&#x0A;- Original project: &apos;prjJJDBC&apos;&#x0D;&#x0A;- Destination element: &apos;prjDB/src/main/java&apos;&#x0D;&#x0A;- Original element: &apos;prjJJDBC/src/main/java/pkjDB&apos;&#x0D;&#x0A;- Update references to refactored element" description="Move package" destination="=prjDB/src\/main\/java" element1="/src\/main\/java&lt;pkjDB" flags="589830" fragments="1" id="org.eclipse.jdt.ui.move" policy="org.eclipse.jdt.ui.movePackages" stamp="1664863661881" version="1.0"/>
+</session>
